@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import time
 from datetime import datetime
 from subprocess import PIPE, Popen
@@ -26,11 +27,14 @@ class RadioGardenPlayer(commands.Cog):
             self.text_channel = App.client.get_channel(App.config.text_channel_id)
         self.voice_channel = App.client.get_channel(App.config.voice_channel_id)
 
-        member = self.voice_channel.guild.get_member(App.client.user.id)
-        if member.nick != "Radio Garden":
-            await member.edit(nick="Radio Garden")
-            with open("resources/rgb.png", "rb") as f:
-                await App.client.user.edit(avatar=f.read())
+        try:
+            member = self.voice_channel.guild.get_member(App.client.user.id)
+            if member.nick != "Radio Garden":
+                await member.edit(nick="Radio Garden")
+                with open("resources/rgb.png", "rb") as f:
+                    await App.client.user.edit(avatar=f.read())
+        except Exception as e:
+            logging.exception("Failed to change nickname or avatar.", exc_info=e)
 
         # バグ対応のため, 一度接続して切断する
         await (await self.voice_channel.connect()).disconnect()
