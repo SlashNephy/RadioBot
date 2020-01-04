@@ -36,11 +36,11 @@ class Config:
         return Config(
             debug=d.get("debug", False),
             token=d["token"],
-            volume=d.get("volume") or 1.0,
+            volume=d.get("volume", 1.0),
             prefix=d.get("prefix") or "r!",
             voice_channel_id=d["voice_channel_id"],
             text_channel_id=d.get("text_channel_id"),
-            module=Module(d.get("module") or 1),
+            module=Module(d.get("module", 1)),
             radiko_area=d.get("radiko_area"),
             radiko_station=d.get("radiko_station"),
             radio_garden_url=d.get("radio_garden_url")
